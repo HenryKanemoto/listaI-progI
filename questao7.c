@@ -47,36 +47,43 @@ int main() {
   int matriz[n][n];
   linhaDeChegada = n * n;
 
-  // Esse while conta até onde o marcadorFator deve ir, o marcadorFator é definido em marcadorFator(antigo) + (n-k) * 4 - 4, onde k  é definido por 2 * numCamada(começa em zero e aumenta em cada camada)  
+  // Esse for conta até onde o marcadorFator deve ir, o marcadorFator é definido em marcadorFator(antigo) + (n-k) * 4 - 4, onde k  é definido por 2 * numCamada(começa em zero e aumenta em cada camada)  
   while(marcadorFator < linhaDeChegada) { 
+    // Este if só é usado em n impar, ele impede que o while estoure a memória, pois marcadorFator estaria sempre somando 0
+    if ((n - fatorCamada) == 1) {
+    matriz[numCamada][numCamada] = linhaDeChegada; 
+    break;
+  }
 
-    marcadorFator += fator; // Isso acumula o marcadorFator, conta quantas casas todos os quadrados ocupam até agora
-    fator = (n - fatorCamada) * 4 - 4; // Essa é a conta principal, (n - k) * 4 - 4, ela conta quantas casas o quadrado atual vai ter
+  printf(" ");
 
-    c1 = marcadorFator + 1; // ponto de partida do quadrado atual
-    c2 = marcadorFator + fator; // ponto de saída do quadrado atual
-
-    // Esse for conta as linhas de cada quadrado, por isso é variavel de acordo com fatorCamada
-    for (int i = 0; i < (n - fatorCamada); i++) {   
-
-      // Esse for conta as colunas de cada quadrado, por isso é variável de acordo com fatorCamada
-      for (int j = 0; j < (n - fatorCamada); j++) {
+  fator = (n - fatorCamada) * 4 - 4; // Essa é a conta principal, (n - k) * 4 - 4, ela conta quantas casas o quadrado atual vai ter
+  
+  c1 = marcadorFator + 1; // ponto de partida do quadrado atual
+  c2 = marcadorFator + fator; // ponto de saída do quadrado atual
+  
+  // Esse for conta as linhas de cada quadrado, por isso é variavel de acordo com fatorCamada
+  for (int i = 0; i < (n - fatorCamada); i++) {   
+    
+    // Esse for conta as colunas de cada quadrado, por isso é variável de acordo com fatorCamada
+    for (int j = 0; j < (n - fatorCamada); j++) {
+      
+      // Esse if só se ativa caso seja a primeira linha ou a ultima coluna (triãngulo superior)
+      if (i == 0 || j == (n - fatorCamada) - 1) {
+        matriz[i + numCamada][j + numCamada] = c1; //Observe que nesse input de matriz devemos usar i + numCamada, para que seja a posição do quadrado atual, não do maior quadrado que estamos percorrendo
+        c1 += 1;
+      } else { // Else garante que não haja repetições nos vértices
         
-        // Esse if só se ativa caso seja a primeira linha ou a ultima coluna (triãngulo superior)
-        if (i == 0 || j == (n - fatorCamada) - 1) {
-          matriz[i + numCamada][j + numCamada] = c1; //Observe que nesse input de matriz devemos usar i + numCamada, para que seja a posição do quadrado atual, não do maior quadrado que estamos percorrendo
-          c1 += 1;
-        } else { // Else garante que não haja repetições nos vértices
-
-          // Esse if só se ativa caso seja a primeira coluna ou a ultima linha (triãngulo inferior)
-          if (j == 0 || i == (n - fatorCamada) - 1) {
-            matriz[i + numCamada][j + numCamada] = c2;
-            c2 -= 1;
-          }
+        // Esse if só se ativa caso seja a primeira coluna ou a ultima linha (triãngulo inferior)
+        if (j == 0 || i == (n - fatorCamada) - 1) {
+          matriz[i + numCamada][j + numCamada] = c2;
+          c2 -= 1;
         }
       }
     }
-
+  }
+  
+    marcadorFator += fator; // Isso acumula o marcadorFator, conta quantas casas todos os quadrados ocupam até agora
     numCamada += 1;
     fatorCamada += 2; // fatorCamada diminui em 2 pois cada quadrado perde 2 de tamanho de lado
   }
