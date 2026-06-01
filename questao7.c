@@ -55,8 +55,6 @@ int main() {
     break;
   }
 
-  printf(" ");
-
   fator = (n - fatorCamada) * 4 - 4; // Essa é a conta principal, (n - k) * 4 - 4, ela conta quantas casas o quadrado atual vai ter
   
   c1 = marcadorFator + 1; // ponto de partida do quadrado atual
